@@ -1,13 +1,52 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+/* ./src/index.css */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap");
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* width */
+  ::-webkit-scrollbar {
+    width: 12px;
+    height: 16px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    border-radius: 100vh;
+    background: #edf2f7;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #dcdcdc;
+    border-radius: 100vh;
+    border: 4px solid #edf2f7;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #9a9a9a;
+  }
+
+  div[editext="view-container"] {
+    display: flex;
+    justify-content: space-between;
+    height: 2rem;
+  }
+  button[editext="edit-button"] {
+    display: none;
+  }
+  /* button[editext="save-button"] {
+    width: 50px;
+  }
+  button[editext="cancel-button"] {
+  } */
 }
