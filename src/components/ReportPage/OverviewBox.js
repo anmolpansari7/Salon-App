@@ -14,10 +14,10 @@ const OverviewBox = ({
   return (
     <div className="rounded-list-box bg-list-bg px-14 py-14 mr-8 w-4/12 flex flex-col h-5/6">
       <div className="w-full border-dashed border-b-2 border-black">
-        <h1 className="text-2xl font-medium">{title}</h1>
+        <h1 className="text-2xl font-medium">{title} -</h1>
       </div>
       <ul className="mt-7 overflow-y-auto h-4/5">
-        <OverviewListItem field="Customer Visited" value={customerVisited} />
+        <OverviewListItem field="Orders Delivered" value={customerVisited} />
         <OverviewListItem
           field="Total Bill Amount"
           value={totalBillAmount + " Rs."}
@@ -30,8 +30,8 @@ const OverviewBox = ({
           field="Remaining Dues"
           value={remainingDues + " Rs."}
         />
-        <OverviewListItem field="Points used" value={pointsUsed} />
-        <OverviewListItem field="Points given" value={pointsGiven} />
+        <OverviewListItem field="Points Used" value={pointsUsed + " Pts."} />
+        <OverviewListItem field="Points Earned" value={pointsGiven + " Pts."} />
       </ul>
       <OverviewBoxButton boxTitle={title} />
     </div>

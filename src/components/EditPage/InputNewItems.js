@@ -6,7 +6,7 @@ const InputNewItems = ({ onBlur }) => {
   const [currPrice, setCurrPrice] = useState("");
 
   return (
-    <li className="flex justify-between border-dashed border-b-2 border-gray-800 mt-8 text-lg">
+    <li className="flex justify-between border-dashed border-b-2 border-gray-800 mt-5 text-lg">
       <input
         className="w-8/12 focus:outline-none"
         type="text"

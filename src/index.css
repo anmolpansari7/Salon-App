@@ -35,18 +35,4 @@
   ::-webkit-scrollbar-thumb:hover {
     background: #9a9a9a;
   }
-
-  div[editext="view-container"] {
-    display: flex;
-    justify-content: space-between;
-    height: 2rem;
-  }
-  button[editext="edit-button"] {
-    display: none;
-  }
-  /* button[editext="save-button"] {
-    width: 50px;
-  }
-  button[editext="cancel-button"] {
-  } */
 }

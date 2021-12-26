@@ -1,35 +1,25 @@
-import React from "react";
-import ListItem from "./ListItem";
+import React, { useEffect } from "react";
+import { getTotalVisitedCustomers } from "../../store/customers-actions";
+import { useSelector, useDispatch } from "react-redux";
 
 const TodaysCustomerList = () => {
-  const todaysCustomers = [
-    {
-      id: "c1",
-      name: "Virat Kohli",
-      amount: 120,
-    },
-    {
-      id: "c2",
-      name: "M.S Dhoni",
-      amount: 200,
-    },
-  ];
+  const dispatch = useDispatch();
+  const totalCustomers = useSelector(
+    (state) => state.customers.totalVisitedCustomers
+  );
+
+  useEffect(() => {
+    dispatch(getTotalVisitedCustomers());
+  }, []);
 
   return (
-    <div className="h-76 px-14 py-10 bg-list-bg rounded-tr-list-box rounded-br-list-box">
+    <div className=" flex-grow px-12 py-10 bg-list-bg rounded-tr-list-box rounded-br-list-box">
       <div className="w-full border-dashed border-b-2 border-black">
-        <h1 className="text-2xl font-medium">Today's Customers-</h1>
+        <h1 className="text-2xl font-medium">Total Customers -</h1>
       </div>
-      <ul className="h-4/6 mt-5 overflow-y-auto">
-        {todaysCustomers.map((customer) => (
-          <ListItem
-            key={customer.id}
-            id={customer.id}
-            name={customer.name}
-            cost={customer.amount}
-          />
-        ))}
-      </ul>
+      <h1 className=" text-6xl font-medium text-center justify-center mt-7">
+        {totalCustomers}
+      </h1>
     </div>
   );
 };

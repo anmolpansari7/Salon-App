@@ -1,13 +1,49 @@
 import React, { useRef } from "react";
+import { useDispatch } from "react-redux";
 import ButtonTab from "./Layout/ButtonTab";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { authSliceAction } from "../store/auth-slice";
+
+require("dotenv").config();
 
 const Message = () => {
   const messageInputRef = useRef();
+  const dispatch = useDispatch();
 
   const sendMessageHandler = (e) => {
     e.preventDefault();
+    const ownerToken = localStorage.getItem("ownerToken");
     const message = messageInputRef.current.value;
-    console.log(message);
+    const id = toast.loading("Message Queued for Sending ...");
+    axios
+      .post(
+        `${process.env.REACT_APP_BASE_URL}/send_sms`,
+        {
+          message: message,
+        },
+        {
+          headers: { Authorization: `Bearer ${ownerToken}` },
+        }
+      )
+      .then(() => {
+        toast.update(id, {
+          render: "Message Sent to all Customers.",
+          type: "success",
+          isLoading: false,
+          autoClose: 5000,
+          draggable: true,
+        });
+      })
+      .catch((err) => {
+        if (err.response) {
+          toast.error("Not Authenticated !");
+          localStorage.removeItem("ownerToken");
+          dispatch(authSliceAction.setIsAuthFalse());
+        } else {
+          toast.error("Server Disconnected!");
+        }
+      });
   };
 
   return (

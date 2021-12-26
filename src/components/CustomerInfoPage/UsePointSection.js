@@ -2,7 +2,6 @@ import React from "react";
 
 const UsePointSection = ({
   discountAmount,
-  maxPointLimit,
   onUsePointCheck,
   onUsePointsValueChange,
 }) => {
@@ -21,7 +20,6 @@ const UsePointSection = ({
         type="number"
         placeholder="use Points"
         min={0}
-        max={maxPointLimit}
         className="w-3/12 text-right px-3 border-2 border-gray-300 rounded-edit-btn focus:outline-none"
         onChange={onUsePointsValueChange}
       />

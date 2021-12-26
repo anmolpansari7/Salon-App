@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import StyledEdiText from "./StyledEdiText";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getPointsCalculatorData,
@@ -7,7 +8,6 @@ import {
   updatePointsCalculatorGivenDiscount,
   updatePointsCalculatorGivenPoints,
 } from "../../store/points-calculator-actions";
-import EdiText from "react-editext";
 
 const EditPriceCalculator = () => {
   const dispatch = useDispatch();
@@ -36,32 +36,27 @@ const EditPriceCalculator = () => {
   }, [pointsCalculator, dispatch]);
 
   return (
-    <div className="h-76 px-14 py-10 bg-list-bg rounded-tr-list-box rounded-br-list-box">
+    <div className="h-76 px-12 py-10 bg-list-bg rounded-tr-list-box rounded-br-list-box">
       <div className="w-full border-dashed border-b-2 border-black">
         <h1 className="text-2xl font-medium">Points Calculator</h1>
       </div>
       <ul className="h-4/6 mt-5 overflow-y-auto">
         <li className="flex justify-between border-dashed border-b-2 border-gray-800 mt-3 text-lg">
-          <div className="flex">
-            <EdiText
-              type="number"
-              value={forRupee}
-              onSave={(val) => {
-                handlePriceCalcForPriceChange(val);
-              }}
-              cancelOnUnfocus
-              cancelOnEscape
-              submitOnEnter
-              validation={(val) => val >= 0}
-              validationMessage="Invalid Input"
-              editOnViewClick={true}
-            />
-            <p className="w-10/12 text-2xl self-center">
-              {" "}
-              Rs. will give Customers{" "}
-            </p>
-          </div>
-          <EdiText
+          <StyledEdiText
+            type="number"
+            value={forRupee}
+            onSave={(val) => {
+              handlePriceCalcForPriceChange(val);
+            }}
+            cancelOnUnfocus
+            cancelOnEscape
+            submitOnEnter
+            validation={(val) => val >= 0}
+            validationMessage="Invalid Input"
+            editOnViewClick={true}
+          />
+          <p className="text-xl self-center"> Rs. will give Customers </p>
+          <StyledEdiText
             type="number"
             value={givenPoints}
             onSave={(val) => {
@@ -75,30 +70,25 @@ const EditPriceCalculator = () => {
             validationMessage="Invalid Input"
             editOnViewClick={true}
           />
-          <p className="text-2xl text-right self-center"> Pts.</p>
+          <p className="text-xl text-right self-center"> Pts.</p>
         </li>
         <li className="flex justify-between border-dashed border-b-2 border-gray-800 mt-3 text-lg">
-          <div className="flex">
-            <EdiText
-              type="number"
-              value={forPoints}
-              onSave={(val) => {
-                handlePriceCalcForPointsChange(val);
-              }}
-              className=""
-              cancelOnUnfocus
-              cancelOnEscape
-              submitOnEnter
-              validation={(val) => val >= 0}
-              validationMessage="Invalid Input"
-              editOnViewClick={true}
-            />
-            <p className="w-10/12 text-2xl self-center">
-              {" "}
-              Pts. will give discount of{" "}
-            </p>
-          </div>
-          <EdiText
+          <StyledEdiText
+            type="number"
+            value={forPoints}
+            onSave={(val) => {
+              handlePriceCalcForPointsChange(val);
+            }}
+            className=""
+            cancelOnUnfocus
+            cancelOnEscape
+            submitOnEnter
+            validation={(val) => val >= 0}
+            validationMessage="Invalid Input"
+            editOnViewClick={true}
+          />
+          <p className="text-xl self-center"> Pts. will give discount of </p>
+          <StyledEdiText
             type="number"
             value={givenDiscount}
             onSave={(val) => {
@@ -112,7 +102,7 @@ const EditPriceCalculator = () => {
             validationMessage="Invalid Input"
             editOnViewClick={true}
           />
-          <p className="text-2xl text-right self-center"> Rs.</p>
+          <p className="text-xl text-right self-center"> Rs.</p>
         </li>
       </ul>
     </div>

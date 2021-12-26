@@ -25,7 +25,7 @@ const NavBar = ({ onAddCustomerButtonClick }) => {
         </CustomLink>
         <CustomLink to="/edit">
           <Tabs
-            text="Edit"
+            text="Edit List"
             svgPathD="M10.84 3.32H3.187A2.187 2.187 0 0 0 1 5.505v15.307A2.187 2.187 0 0 0 3.187 23h15.307a2.187 2.187 0 0 0 2.187-2.187V13.16 M19.04 1.68a2.32 2.32 0 1 1 3.28 3.28L11.935 15.346 7.56 16.44l1.093-4.374L19.041 1.68Z"
           />
         </CustomLink>

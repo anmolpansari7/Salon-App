@@ -8,14 +8,9 @@ const OverviewBoxButton = ({ boxTitle }) => {
 
   const onShowDetailHandler = (e) => {
     let name = e.target.name;
-    console.log(e.target.name);
-    name = name.replace(/\s+/g, "");
-    name = name.replace(/[^a-zA-Z ]/g, "");
-    name = name.toLowerCase();
-    console.log(name);
     dispatch(
       reportPageActions.toggleDetailedBox({
-        filterType: name,
+        detailSectionHeading: name,
       })
     );
   };
@@ -24,9 +19,7 @@ const OverviewBoxButton = ({ boxTitle }) => {
     <button
       className=" bg-overview-btn p-3 rounded-tab-cor w-max self-end"
       name={boxTitle}
-      onClick={(e) => {
-        onShowDetailHandler(e);
-      }}
+      onClick={onShowDetailHandler}
     >
       <img
         name={boxTitle}

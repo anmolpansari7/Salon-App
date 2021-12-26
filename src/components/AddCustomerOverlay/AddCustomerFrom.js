@@ -1,11 +1,13 @@
 import React, { useRef } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import ButtonTab from "./../Layout/ButtonTab";
 import CustomerDetailInput from "./CustomerDetailInput";
 import { sendNewCustomerData } from "../../store/customers-actions";
 
 const AddCustomerFrom = ({ onFormSubmit }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const newCustomerNameInputRef = useRef();
   const newCustomerContactInputRef = useRef();
@@ -30,7 +32,7 @@ const AddCustomerFrom = ({ onFormSubmit }) => {
         address,
       };
 
-      dispatch(sendNewCustomerData(newCustomer));
+      dispatch(sendNewCustomerData(newCustomer, navigate));
       onFormSubmit();
     }
   };

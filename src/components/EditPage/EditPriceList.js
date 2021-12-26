@@ -37,11 +37,11 @@ const EditPriceList = () => {
   }, [priceListItems, dispatch]);
 
   return (
-    <div className="px-16 py-14 mr-8 w-1/2 rounded-tl-list-box rounded-bl-list-box bg-list-bg flex flex-col">
+    <div className="px-12 py-8 pb-6 mr-8 w-1/2 rounded-tl-list-box rounded-bl-list-box bg-list-bg flex flex-col">
       <div className="w-full border-dashed border-b-2 border-black">
         <h1 className="text-4xl font-medium">Price List</h1>
       </div>
-      <ul className="mt-7 overflow-y-auto">
+      <ul className="mt-4 overflow-y-auto">
         {priceListItems.map((item) => (
           <EditableListItems
             key={item._id}

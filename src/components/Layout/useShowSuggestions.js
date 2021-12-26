@@ -3,20 +3,24 @@ import { useDispatch } from "react-redux";
 import { customerListActions } from "../../store/customers-slice";
 import axios from "axios";
 
+require("dotenv").config();
+
 const useShowSuggestions = (query) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     const source = axios.CancelToken.source();
+    const ownerToken = localStorage.getItem("ownerToken");
+
     if (query.length !== 0) {
       axios
-        .get(`http://localhost:5000/customer/${query}`, {
+        .get(`${process.env.REACT_APP_BASE_URL}/customer/${query}`, {
+          headers: { Authorization: `Bearer ${ownerToken}` },
           cancelToken: source.token,
         })
         .then((res) => {
           if (res.status === 200) {
             dispatch(customerListActions.addSuggestions(res.data));
-            console.log("Started Searching");
           }
         })
         .catch((error) => {

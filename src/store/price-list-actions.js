@@ -1,54 +1,141 @@
 import axios from "axios";
 import { priceListActions } from "./price-list-slice";
+import { authSliceAction } from "./auth-slice";
+import { toast } from "react-toastify";
+
+require("dotenv").config();
 
 export const getPriceListData = () => {
   return (dispatch) => {
-    axios.get("http://localhost:5000/pricelist").then((res) => {
-      if (res.status === 200) {
-        dispatch(priceListActions.loadPriceItem(res.data));
-      }
-    });
+    axios
+      .get(`${process.env.REACT_APP_BASE_URL}/pricelist`)
+      .then((res) => {
+        if (res.status === 200) {
+          dispatch(priceListActions.loadPriceItem(res.data));
+        }
+      })
+      .catch((error) => {
+        toast.error("Server Disconnected!");
+        console.log(error);
+      });
   };
 };
 
 export const sendPriceListData = (name, cost) => {
-  return () => {
+  return (dispatch) => {
     // Send Data to DB
+    const ownerToken = localStorage.getItem("ownerToken");
+
     axios
-      .post("http://localhost:5000/pricelist/add", {
-        name: name,
-        cost: cost,
+      .post(
+        `${process.env.REACT_APP_BASE_URL}/pricelist/add`,
+        {
+          name: name,
+          cost: cost,
+          status: "active",
+        },
+        { headers: { Authorization: `Bearer ${ownerToken}` } }
+      )
+      .then(() => {
+        toast.success("Item Added! 👍");
       })
-      .then((res) => console.log(res.data));
+      .catch((err) => {
+        if (err.response) {
+          toast.error("Not Authenticated !");
+          localStorage.removeItem("ownerToken");
+          dispatch(authSliceAction.setIsAuthFalse());
+        } else {
+          toast.error("Server Disconnected!");
+        }
+      });
   };
 };
 
 export const deletePriceListData = (id) => {
-  return () => {
+  const ownerToken = localStorage.getItem("ownerToken");
+
+  return (dispatch) => {
     axios
-      .delete(`http://localhost:5000/pricelist/${id}`)
-      .then((res) => console.log(res.data));
+      .patch(
+        `${process.env.REACT_APP_BASE_URL}/pricelist/${id}`,
+        {
+          status: "deleted",
+        },
+        {
+          headers: { Authorization: `Bearer ${ownerToken}` },
+        }
+      )
+      .then(() => {
+        toast.success("Item Removed! ✌");
+      })
+      .catch((err) => {
+        if (err.response) {
+          toast.error("Not Authenticated !");
+          localStorage.removeItem("ownerToken");
+          dispatch(authSliceAction.setIsAuthFalse());
+        } else {
+          toast.error("Server Disconnected!");
+        }
+      });
   };
 };
 
 export const updatePriceItemData = (id, val) => {
-  return () => {
+  const ownerToken = localStorage.getItem("ownerToken");
+
+  return (dispatch) => {
     axios
-      .patch(`http://localhost:5000/pricelist/updateItem/${id}`, {
-        id: id,
-        name: val,
+      .patch(
+        `${process.env.REACT_APP_BASE_URL}/pricelist/updateItem/${id}`,
+        {
+          id: id,
+          name: val,
+        },
+        {
+          headers: { Authorization: `Bearer ${ownerToken}` },
+        }
+      )
+      .then(() => {
+        toast.success("Item Updated! 👍");
       })
-      .then((res) => console.log(res.data));
+      .catch((err) => {
+        if (err.response) {
+          toast.error("Not Authenticated !");
+          localStorage.removeItem("ownerToken");
+          dispatch(authSliceAction.setIsAuthFalse());
+        } else {
+          toast.error("Server Disconnected!");
+        }
+      });
   };
 };
 
 export const updatePriceCostData = (id, val) => {
-  return () => {
+  const ownerToken = localStorage.getItem("ownerToken");
+
+  return (dispatch) => {
     axios
-      .patch(`http://localhost:5000/pricelist/updateCost/${id}`, {
-        id: id,
-        cost: val,
+      .patch(
+        `${process.env.REACT_APP_BASE_URL}/pricelist/updateCost/${id}`,
+        {
+          id: id,
+          cost: val,
+        },
+        {
+          headers: { Authorization: `Bearer ${ownerToken}` },
+        }
+      )
+      .then(() => {
+        toast.success("Item Cost Updated! 🤑");
       })
-      .then((res) => console.log(res.data));
+      .catch((err) => {
+        if (err.response) {
+          toast.error("Not Authenticated !");
+          localStorage.removeItem("ownerToken");
+          dispatch(authSliceAction.setIsAuthFalse());
+        } else {
+          toast.error("Server Disconnected!");
+        }
+      });
   };
 };

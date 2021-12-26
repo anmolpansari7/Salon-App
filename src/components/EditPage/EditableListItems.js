@@ -1,6 +1,6 @@
 import React from "react";
-import EdiText from "react-editext";
 import deleteButton from "./../../assets/delete_icon.svg";
+import StyledEdiText from "./StyledEdiText";
 
 const EditableListItems = ({
   id,
@@ -11,8 +11,8 @@ const EditableListItems = ({
   onDeleteItem,
 }) => {
   return (
-    <li className="flex justify-between border-dashed border-b-2 border-gray-800 mt-3 text-lg">
-      <EdiText
+    <li className="flex justify-between border-dashed border-b-2 border-gray-800 mt-4 text-lg">
+      <StyledEdiText
         type="text"
         value={name}
         onSave={(val) => {
@@ -25,9 +25,10 @@ const EditableListItems = ({
         validation={(val) => val.length > 0}
         validationMessage="This field can not be empty."
         editOnViewClick={true}
+        canEdit={false}
       />
 
-      <EdiText
+      <StyledEdiText
         type="number"
         value={cost}
         onSave={(val) => {
@@ -40,6 +41,7 @@ const EditableListItems = ({
         validation={(val) => val > 0}
         validationMessage="Please Enter Price greater than zero."
         editOnViewClick={true}
+        canEdit={false}
       />
       <p className="self-center"> Rs.</p>
       <button
@@ -47,6 +49,7 @@ const EditableListItems = ({
         onClick={() => {
           onDeleteItem(id);
         }}
+        title="Delete this item"
       >
         <img src={deleteButton} alt="delete" />
       </button>

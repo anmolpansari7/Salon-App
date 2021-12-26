@@ -7,10 +7,11 @@ const TodaysFieldTitle = () => {
         <p className=" w-2/12 font-medium">Customer's Name</p>
         <p className=" w-2/12 font-medium">Contact Number</p>
         <p className=" w-1/12 font-medium text-right">Bill Amt.</p>
-        <p className=" w-1/12 font-medium text-right">Paid Amt.</p>
+        <p className=" w-32 font-medium text-right">Paid Amt.</p>
         <p className=" w-1/12 font-medium text-right">Dues</p>
-        <p className=" w-1/12 font-medium text-right">Pts. Used</p>
-        <p className=" w-1/12 font-medium text-right">Pts. Given</p>
+        <p className=" w-1/12 font-medium text-right">Pts Used</p>
+        <p className=" w-1/12 font-medium text-right">Pts Earned</p>
+        <p className=" w-20 font-medium text-right">Date</p>
       </li>
     </ul>
   );

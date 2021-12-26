@@ -6,6 +6,7 @@ const priceItemSchema = new Schema(
   {
     name: String,
     cost: Number,
+    status: String,
   },
   {
     timestamps: true,
