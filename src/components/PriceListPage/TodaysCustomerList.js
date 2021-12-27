@@ -10,7 +10,7 @@ const TodaysCustomerList = () => {
 
   useEffect(() => {
     dispatch(getTotalVisitedCustomers());
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className=" flex-grow px-12 py-10 bg-list-bg rounded-tr-list-box rounded-br-list-box">
