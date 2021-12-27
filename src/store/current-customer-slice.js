@@ -5,6 +5,8 @@ const currentCustomerSlice = createSlice({
   initialState: {
     currentCustomer: {},
     currentCustomerOrders: [],
+    hasMore: false,
+    loading: true,
   },
   reducers: {
     loadCurrCustomer(state, action) {
@@ -14,6 +16,18 @@ const currentCustomerSlice = createSlice({
     loadCurrCustomerOrders(state, action) {
       const orders = action.payload;
       state.currentCustomerOrders = orders;
+    },
+    setHasMoreTrue(state) {
+      state.hasMore = true;
+    },
+    setHasMoreFalse(state) {
+      state.hasMore = false;
+    },
+    setLoadingTrue(state) {
+      state.loading = true;
+    },
+    setLoadingFalse(state) {
+      state.loading = false;
     },
   },
 });

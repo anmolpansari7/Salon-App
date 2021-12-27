@@ -7,6 +7,7 @@ const reportSlice = createSlice({
     detailSectionHeading: null,
     overview: [],
     reportDetails: [],
+    loading: false,
   },
   reducers: {
     toggleDetailedBox(state, action) {
@@ -20,6 +21,12 @@ const reportSlice = createSlice({
     loadReportDetails(state, action) {
       const details = action.payload;
       state.reportDetails = details;
+    },
+    setLoadingTrue(state) {
+      state.loading = true;
+    },
+    setLoadingFalse(state) {
+      state.loading = false;
     },
   },
 });

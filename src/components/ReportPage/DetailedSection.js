@@ -11,6 +11,7 @@ const DetailedSection = () => {
     (state) => state.report.detailSectionHeading
   );
   const reportDetails = useSelector((state) => state.report.reportDetails);
+  const loading = useSelector((state) => state.report.loading);
 
   const dispatch = useDispatch();
   const [filter, setFilter] = useState("");
@@ -91,20 +92,24 @@ const DetailedSection = () => {
       />
       <TodaysFieldTitle />
       <ul className=" h-4/6 px-14 overflow-y-auto">
-        {shownDetails.map((details, index) => (
-          <TodaysFieldItems
-            index={index}
-            key={details._id}
-            name={details.customerDetails.name}
-            mobile={details.customerDetails.phone}
-            billAmount={details.totalAmount}
-            paidAmount={details.paidAmount}
-            paymentMode={details.paymentMode}
-            pointsUsed={details.pointsUsed}
-            pointsGiven={details.pointsGiven}
-            date={details.createdAt}
-          />
-        ))}
+        {loading ? (
+          <h1 className=" text-center text-lg">Loading ...</h1>
+        ) : (
+          shownDetails.map((details, index) => (
+            <TodaysFieldItems
+              index={index}
+              key={details._id}
+              name={details.customerDetails.name}
+              mobile={details.customerDetails.phone}
+              billAmount={details.totalAmount}
+              paidAmount={details.paidAmount}
+              paymentMode={details.paymentMode}
+              pointsUsed={details.pointsUsed}
+              pointsGiven={details.pointsGiven}
+              date={details.createdAt}
+            />
+          ))
+        )}
       </ul>
       <div className="bg-detail-card-border h-14 mt-8 rounded-br-list-box rounded-bl-list-box flex text-white font-medium text-xl">
         <p className="text-right w-4/12 self-center">Total :-</p>
@@ -121,11 +126,11 @@ const DetailedSection = () => {
           <span className=" text-base ml-1">Rs.</span>
         </p>
         <p className="text-right w-32 self-center">
-          {pointsUsed}
+          {pointsUsed.toFixed(2)}
           <span className=" text-base ml-1">Pts.</span>
         </p>
         <p className="text-right w-32 self-center">
-          {pointsGiven}
+          {pointsGiven.toFixed(2)}
           <span className=" text-base ml-1">Pts.</span>
         </p>
       </div>

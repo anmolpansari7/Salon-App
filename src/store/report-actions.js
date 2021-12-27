@@ -38,14 +38,15 @@ export const getReportDetials = (detailSectionHeading) => {
   detailSectionHeading = detailSectionHeading.toLowerCase();
 
   const ownerToken = localStorage.getItem("ownerToken");
-
   return (dispatch) => {
     const url = `${process.env.REACT_APP_BASE_URL}/report/${detailSectionHeading}Customers`;
+    dispatch(reportPageActions.setLoadingTrue());
     axios
       .get(url, { headers: { Authorization: `Bearer ${ownerToken}` } })
       .then((res) => {
         if (res.status === 200) {
           dispatch(reportPageActions.loadReportDetails(res.data));
+          dispatch(reportPageActions.setLoadingFalse());
         }
       })
       .catch((err) => {

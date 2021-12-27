@@ -11,9 +11,60 @@ router.route("/").get((req, res) => {
 });
 
 router
-  .route("/selected-customer/:id")
-  .get(passport.authenticate("jwt", { session: false }), (req, res) => {
+  .route("/add")
+  .post(passport.authenticate("jwt", { session: false }), (req, res) => {
+    const customerId = req.body.customerId;
+    const itemIds = req.body.itemIds;
+    const totalAmount = req.body.totalAmount;
+    const paidAmount = req.body.paidAmount;
+    const paymentMode = req.body.paymentMode;
+    const remark = req.body.remark;
+    const pointsUsed = req.body.pointsUsed;
+    const pointsGiven = req.body.pointsGiven;
+    const discount = req.body.discount;
+
+    const newOrder = new Order({
+      customerId,
+      itemIds,
+      totalAmount,
+      paidAmount,
+      paymentMode,
+      remark,
+      pointsUsed,
+      pointsGiven,
+      discount,
+    });
+
+    newOrder
+      .save()
+      .then(() => res.json("Order Added!"))
+      .catch((err) => res.status(400).json("Error: " + err));
+  });
+
+const paginateRequest = (Order) => {
+  return async (req, res, next) => {
     const { id } = req.params;
+    const page = Number(req.query.page);
+    const limit = Number(req.query.limit);
+
+    const startIndex = (page - 1) * limit;
+    const endIndex = page * limit;
+
+    const results = {};
+    const totalDocuments = await Order.count({ customerId: id }).exec();
+    if (endIndex < totalDocuments)
+      results.next = {
+        page: page + 1,
+        limit: limit,
+      };
+
+    if (startIndex > 0) {
+      results.previous = {
+        page: page - 1,
+        limit: limit,
+      };
+    }
+
     Order.aggregate([
       {
         $match: { customerId: id },
@@ -97,40 +148,30 @@ router
       {
         $sort: { createdAt: -1, _id: 1 },
       },
+      {
+        $skip: startIndex,
+      },
+      {
+        $limit: limit,
+      },
     ])
-      .then((items) => res.json(items))
-      .catch((err) => res.status(400).json("Err " + err));
-  });
+      .then((orders) => {
+        results.result = orders;
+        res.paginatedResults = results;
+        next();
+      })
+      .catch((err) => res.status(500).json({ message: err.message }));
+  };
+};
 
+// accepts query of limit and page
 router
-  .route("/add")
-  .post(passport.authenticate("jwt", { session: false }), (req, res) => {
-    const customerId = req.body.customerId;
-    const itemIds = req.body.itemIds;
-    const totalAmount = req.body.totalAmount;
-    const paidAmount = req.body.paidAmount;
-    const paymentMode = req.body.paymentMode;
-    const remark = req.body.remark;
-    const pointsUsed = req.body.pointsUsed;
-    const pointsGiven = req.body.pointsGiven;
-    const discount = req.body.discount;
-
-    const newOrder = new Order({
-      customerId,
-      itemIds,
-      totalAmount,
-      paidAmount,
-      paymentMode,
-      remark,
-      pointsUsed,
-      pointsGiven,
-      discount,
-    });
-
-    newOrder
-      .save()
-      .then(() => res.json("Order Added!"))
-      .catch((err) => res.status(400).json("Error: " + err));
-  });
-
+  .route("/selected-customer/:id")
+  .get(
+    passport.authenticate("jwt", { session: false }),
+    paginateRequest(Order),
+    (req, res) => {
+      res.json(res.paginatedResults);
+    }
+  );
 module.exports = router;
