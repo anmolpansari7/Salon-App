@@ -1,6 +1,7 @@
 import axios from "axios";
 import { authSliceAction } from "./auth-slice";
 import { toast } from "react-toastify";
+import { currentCustomerActions } from "./current-customer-slice";
 
 require("dotenv").config();
 
@@ -26,6 +27,10 @@ export const sendNewOrderData = (newOrder) => {
       )
       .then(() => {
         toast.success("Order Saved! 👍");
+
+        dispatch(currentCustomerActions.clearCurrCustomerOrders());
+        dispatch(currentCustomerActions.incremetPageNumber());
+        dispatch(currentCustomerActions.setPageNumberOne());
       })
       .catch((err) => {
         if (err.response) {

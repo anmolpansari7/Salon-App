@@ -77,8 +77,8 @@ export const updateCurrentCustomer = (id, dues, points) => {
       )
       .then(() => {
         dispatch(getCurrentCustomerData(id));
-        dispatch(currentCustomerActions.clearCurrCustomerOrders());
-        dispatch(currentCustomerActions.setPageNumberOne());
+        // dispatch(currentCustomerActions.clearCurrCustomerOrders());
+        // dispatch(currentCustomerActions.setPageNumberOne());
       })
       .then(() => {
         toast.success("Customer Data Updated! 👍");

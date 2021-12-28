@@ -1,6 +1,7 @@
 import axios from "axios";
 import { authSliceAction } from "./auth-slice";
 import { customerListActions } from "./customers-slice";
+import { currentCustomerActions } from "./current-customer-slice";
 import { toast } from "react-toastify";
 
 require("dotenv").config();
@@ -24,6 +25,8 @@ export const sendNewCustomerData = (newCustomer, navigate) => {
         const newCustomerId = res.data;
         toast.success("Customer Added! 👍");
         navigate(`/customer/${newCustomerId}`);
+        dispatch(currentCustomerActions.clearCurrCustomerOrders());
+        dispatch(currentCustomerActions.setPageNumberOne());
       })
       .catch((err) => {
         if (err.response) {
