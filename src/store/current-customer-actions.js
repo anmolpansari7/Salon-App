@@ -33,7 +33,6 @@ export const getCurrentCustomerOrders = (id, pageNumber, limit) => {
   return (dispatch) => {
     const ownerToken = localStorage.getItem("ownerToken");
     dispatch(currentCustomerActions.setLoadingTrue());
-
     const url = `${process.env.REACT_APP_BASE_URL}/order/selected-customer/${id}?page=${pageNumber}&limit=${limit}`;
     axios
       .get(url, { headers: { Authorization: `Bearer ${ownerToken}` } })
@@ -42,6 +41,7 @@ export const getCurrentCustomerOrders = (id, pageNumber, limit) => {
           dispatch(
             currentCustomerActions.loadCurrCustomerOrders(res.data.result)
           );
+          console.log(res.data.result);
           if (res.data.next !== undefined) {
             console.log("more page after this", res.data.next);
             dispatch(currentCustomerActions.setHasMoreTrue());
@@ -77,7 +77,8 @@ export const updateCurrentCustomer = (id, dues, points) => {
       )
       .then(() => {
         dispatch(getCurrentCustomerData(id));
-        dispatch(getCurrentCustomerOrders(id, 1, 1));
+        dispatch(currentCustomerActions.clearCurrCustomerOrders());
+        dispatch(currentCustomerActions.setPageNumberOne());
       })
       .then(() => {
         toast.success("Customer Data Updated! 👍");

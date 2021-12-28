@@ -5,18 +5,18 @@ import CustomerDetails from "./CustomerDetails";
 import Order from "./Order";
 import NewOrderOverlay from "./NewOrderOverlay";
 import { getCurrentCustomerOrders } from "../../store/current-customer-actions";
+import { currentCustomerActions } from "../../store/current-customer-slice";
 
 const CustomerInfoPage = () => {
   let { id } = useParams();
   const dispatch = useDispatch();
-  const currOrders = useSelector(
+  const orders = useSelector(
     (state) => state.currentCustomer.currentCustomerOrders
   );
   const hasMore = useSelector((state) => state.currentCustomer.hasMore);
   const loading = useSelector((state) => state.currentCustomer.loading);
+  const pageNumber = useSelector((state) => state.currentCustomer.pageNumber);
   const [showNewOrderForm, setShowNewOrderForm] = useState(false);
-  const [pageNumber, setPageNumber] = useState(1);
-  const [orders, setOrders] = useState(currOrders);
 
   const observer = useRef();
   const lastOrderElementRef = useCallback(
@@ -25,7 +25,7 @@ const CustomerInfoPage = () => {
       if (observer.current) observer.current.disconnect();
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && hasMore) {
-          setPageNumber((prevPageNumber) => prevPageNumber + 1);
+          dispatch(currentCustomerActions.incremetPageNumber());
           console.log("page number increased!");
         } else {
           console.log("HasMore : ", hasMore);
@@ -33,7 +33,7 @@ const CustomerInfoPage = () => {
       });
       if (node) observer.current.observe(node);
     },
-    [loading, hasMore]
+    [loading, hasMore, dispatch]
   );
 
   const onNewOrderButtonClick = () => {
@@ -46,12 +46,8 @@ const CustomerInfoPage = () => {
 
   useEffect(() => {
     dispatch(getCurrentCustomerOrders(id, pageNumber, 6));
+    console.log("fetching Page Number: " + pageNumber);
   }, [id, pageNumber, dispatch]);
-
-  useEffect(() => {
-    console.log("setting currOrders");
-    setOrders((prevOrders) => [...new Set([...prevOrders, ...currOrders])]);
-  }, [currOrders]);
 
   return (
     <div className="h-200 bg-page-bg px-32 pt-8 pb-6 flex">
@@ -67,6 +63,9 @@ const CustomerInfoPage = () => {
           }
         })}
         {loading && <h1 className=" text-center">Loading ...</h1>}
+        {!loading && orders.length === 0 && (
+          <h1 className="text-left">No Order Placed...</h1>
+        )}
       </div>
       {showNewOrderForm && (
         <NewOrderOverlay onClose={onCloseNewOrderForm} currCustomerId={id} />

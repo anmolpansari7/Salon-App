@@ -5,6 +5,7 @@ const currentCustomerSlice = createSlice({
   initialState: {
     currentCustomer: {},
     currentCustomerOrders: [],
+    pageNumber: 1,
     hasMore: false,
     loading: true,
   },
@@ -15,7 +16,16 @@ const currentCustomerSlice = createSlice({
     },
     loadCurrCustomerOrders(state, action) {
       const orders = action.payload;
-      state.currentCustomerOrders = orders;
+      state.currentCustomerOrders = [...state.currentCustomerOrders, ...orders];
+    },
+    clearCurrCustomerOrders(state) {
+      state.currentCustomerOrders = [];
+    },
+    incremetPageNumber(state) {
+      state.pageNumber = state.pageNumber + 1;
+    },
+    setPageNumberOne(state) {
+      state.pageNumber = 1;
     },
     setHasMoreTrue(state) {
       state.hasMore = true;

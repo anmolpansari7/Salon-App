@@ -1,14 +1,22 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import SearchIcon from "./../../assets/search-icon.svg";
 import useShowSuggestions from "./useShowSuggestions";
 import CustomLink from "./CustomLink";
+import { currentCustomerActions } from "../../store/current-customer-slice";
 
 const Suggestions = ({ customer }) => {
+  const dispatch = useDispatch();
+  const onSuggestionClick = () => {
+    dispatch(currentCustomerActions.clearCurrCustomerOrders());
+    dispatch(currentCustomerActions.setPageNumberOne());
+  };
+
   return (
     <li
       key={customer._id}
       className="h-12 w-full px-6 flex justify-between border-b-2 border-detail-card-border hover:bg-inactive-tab-right rounded-tab-cor"
+      onClick={onSuggestionClick}
     >
       <p className="self-center">{customer.name}</p>
       <p className="self-center">+91 {customer.phone}</p>
